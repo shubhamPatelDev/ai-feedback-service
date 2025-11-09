@@ -1,0 +1,50 @@
+# Build artifacts
+build/
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Gradle
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+.project
+.classpath
+.settings/
+*.swp
+*.swo
+*~
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+*.bak
+
+# Application config with secrets
+application.yml
+application-*.yml
+!application-template.yml
+
+# Test outputs and scripts
+sentiment_feedback_output.txt
+sentiment_feedback_output_encoded.txt
+*.ps1
+
+# Environment files
+.env
+.env.local
+
+# Temporary files
+*.tmp
+*.temp
