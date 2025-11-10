@@ -83,10 +83,8 @@ The application will start at `http://localhost:8080`
 
 ## 📸 Screenshots
 
-### Feedback Submission Form
-![Feedback Form](docs/dashboard.png)
-
 ### Feedback Dashboard with Reviews
+![Dashboard](docs/dashboard.png)
 ![Dashboard Reviews](docs/dashboard-reviews.png)
 
 ## 📡 API Endpoints
