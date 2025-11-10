@@ -22,53 +22,60 @@ This application demonstrates a complete feedback processing pipeline that:
 
 ## 🛠️ Technology Stack
 
-- **Backend**: Java 25, Spring Boot 3.2.3
-- **Build Tool**: Gradle 8.11.1
-- **AI/ML**: Google Gemini AI, Stanford CoreNLP
+- **Backend**: Java 24, Spring Boot 3.4.1
+- **Build Tool**: Gradle 8.10.2
+- **AI/ML**: Google Gemini AI, Stanford CoreNLP 4.5.10
 - **Architecture**: RESTful API, Async Processing, Repository Pattern
-- **Code Quality**: Lombok, MapStruct
+- **Code Quality**: Lombok 1.18.38, MapStruct 1.6.3
+- **HTTP Client**: OkHttp 4.12.0
 
 ## 📋 Prerequisites
 
-- Java 25 or higher
-- Gradle 8.11.1 or higher
-- Google Gemini API Key ([Get one here](https://makersuite.google.com/app/apikey))
+- Java 24 or higher
+- Gradle 8.10.2 or higher (wrapper included)
+- Google Gemini API Key ([Get one here](https://aistudio.google.com/app/apikey))
 
 ## 🚀 Quick Start
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/feedback-service.git
-cd feedback-service
+git clone https://github.com/shubhamPatelDev/ai-feedback-service.git
+cd ai-feedback-service/feedback-service
 ```
 
 ### 2. Configure API Key
 
-**Option A: Using Environment Variables (Recommended)**
+Set your Gemini API key as an environment variable:
 
+**Windows (PowerShell):**
+```powershell
+$env:GEMINI_API_KEY="your-actual-api-key-here"
+```
+
+**Windows (CMD):**
+```cmd
+set GEMINI_API_KEY=your-actual-api-key-here
+```
+
+**Linux/Mac:**
 ```bash
 export GEMINI_API_KEY=your-actual-api-key-here
 ```
 
-**Option B: Using Configuration File**
-
-```bash
-# Copy the template
-cp application-template.yml src/main/resources/application.yml
-
-# Edit the file and set your API key
-# gemini:
-#   api-key: ${GEMINI_API_KEY}
-```
+The application reads the API key from the `GEMINI_API_KEY` environment variable configured in `application.yml`.
 
 ### 3. Build and Run
 
-```bash
-# Build the project
-./gradlew clean build
+**Windows:**
+```cmd
+gradlew.bat clean build
+gradlew.bat bootRun
+```
 
-# Run the application
+**Linux/Mac:**
+```bash
+./gradlew clean build
 ./gradlew bootRun
 ```
 
@@ -80,37 +87,14 @@ The application will start at `http://localhost:8080`
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/` | Web dashboard |
-| GET | `/api/v1/feedback` | Get all enhanced feedback |
+| GET | `/` | Web form for submitting feedback |
+| GET | `/feedback/view` | View all feedback entries |
+| POST | `/feedback/submit` | Submit feedback via web form |
+| GET | `/api/v1/feedback` | Get all enhanced feedback (JSON) |
 | GET | `/api/v1/feedback/summary` | Get feedback statistics |
-| POST | `/api/v1/feedback/raw/api` | Process single feedback |
-| POST | `/api/v1/feedback/batch` | Process multiple feedbacks |
-
-### Example: Submit Feedback
-
-```bash
-curl -X POST http://localhost:8080/api/v1/feedback/raw/api \
-  -H "Content-Type: application/json" \
-  -d '{
-    "customer": "John Doe",
-    "department": "Electronics",
-    "comment": "Great product quality and fast delivery!"
-  }'
-```
-
-**Response:**
-```json
-{
-  "id": 1699564800000,
-  "customer": "John Doe",
-  "department": "Electronics",
-  "comment": "Great product quality and fast delivery!",
-  "sentiment": "VERY_POSITIVE",
-  "category": "Product Quality",
-  "actionableInsight": "Continue maintaining high quality standards.",
-  "enhancedAt": "2025-11-09T15:30:00"
-}
-```
+| POST | `/api/v1/feedback/raw/api` | Process single feedback via API |
+| POST | `/api/v1/feedback/batch` | Process multiple feedbacks (async) |
+| POST | `/api/v1/sentiment/analyze` | Analyze sentiment only |
 
 ## 🏗️ Project Structure
 
@@ -125,9 +109,9 @@ feedback-service/
 │   ├── config/          # Configuration classes
 │   └── exception/       # Exception handlers
 ├── src/main/resources/
-│   ├── templates/       # Thymeleaf templates
-│   └── application.yml  # Configuration (not in repo)
-├── application-template.yml  # Configuration template
+│   ├── templates/       # Thymeleaf templates (submit.html, success.html)
+│   ├── application.yml  # Application configuration
+│   └── logback-spring.xml  # Logging configuration
 └── build.gradle.kts     # Build configuration
 ```
 
@@ -162,23 +146,6 @@ curl http://localhost:8080/actuator/metrics
 curl http://localhost:8080/actuator/info
 ```
 
-## 🧪 Testing
-
-```bash
-# Run all tests
-./gradlew test
-
-# Run with coverage
-./gradlew test jacocoTestReport
-```
-
-## 🔒 Security Notes
-
-- Never commit `application.yml` with real API keys
-- Use environment variables for sensitive configuration
-- The `.gitignore` file is configured to exclude sensitive files
-- `application-template.yml` is safe to commit (contains no secrets)
-
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -192,7 +159,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📧 Contact
 
 For questions or feedback, please open an issue on GitHub.
-
----
-
-**Note**: This is a portfolio/demonstration project showcasing integration of AI services, sentiment analysis, and modern Spring Boot development practices.
